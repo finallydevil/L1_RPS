@@ -1,3 +1,51 @@
+# check users entered
+# valid option
+def string_checker(question, valid_ans=("yes", "no")):
+
+    error = f"Please enter a valid option from the following list: {valid_ans}"
+
+    while True:
+
+        # get user response
+        user_response = input(question).lower()
+
+        for i in valid_ans:
+            # check if item is in list
+            if i == user_response:
+                return i
+
+            # check if same letter
+            # as item on list
+            elif user_response == i[0]:
+                return i
+
+            # print error
+            print(error)
+            print()
+
+
+# displays instructions
+def instruction():
+    print("""
+
+**** Instructions ****
+
+To begin, choose the number of rounds (or press enter
+for infinite mode).
+
+Then play against the computer. You need to choose R (rock)
+P (paper) or S (scissors).
+
+The rules are as follows:
+-   Paper beats rock
+-   Rock beats scissors
+-   Scissors beats paper
+
+
+Good luck!
+    """)
+
+
 # checks for int more than 0 (allows <enter>)
 def int_check(question):
     while True:
@@ -28,35 +76,50 @@ def int_check(question):
 mode = "regular"
 rounds_played = 0
 
+rps_list = ["rock", "paper", "scissors", "xxx"]
 
 print("💎📃✂️ Rock / Paper / Scissors Game ️✂️📃💎")
 print()
 
-# instructions
+# ask user if they want instructions
+# them if requested
+want_instructions = string_checker("Do you want to read the instructions? ")
+
+# check user enters
+if want_instructions == "yes":
+    instruction()
 
 # ask user for number of rounds / infinite mode
 num_rounds = int_check("How many rounds? Or, push <enter> for infinite mode: ")
 
 if num_rounds == "infinite":
     mode = "infinite"
-    print("You chose to play infinite mode.")
     num_rounds = 5
 
 # game loop starts here
 while rounds_played < num_rounds:
-    user_choice = input("Choose: ")
+
+    # HEADINGS
+    if mode == "infinite":
+        rounds_heading = f"\n♾️♾️♾️ Round {rounds_played + 1} (infinite mode) ♾️♾️♾️"
+    else:
+        rounds_heading = f"\n🎲🎲🎲 Round {rounds_played + 1} of {num_rounds} 🎲🎲🎲"
+
+    print(rounds_heading)
+    print()
+
+    # get user choice
+    user_choice = string_checker("Choose: ", rps_list)
+    print("you chose", user_choice)
 
     if user_choice == "xxx":
         break
 
     rounds_played += 1
-    print("rounds played: ", rounds_played)
 
     # if users in infinite mode, increase number of rounds!
     if mode == "infinite":
         num_rounds += 1
-
-    print("num rounds: ", num_rounds)
 
 
 # game loop ends here
